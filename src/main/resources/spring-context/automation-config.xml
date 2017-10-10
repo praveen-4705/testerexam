@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="scenarioScope" class="io.autotest.scope.ScenarioScope" />
+	
+	<bean id="scopeConfigurer" class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="test" value-ref="scenarioScope"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="factoryBean" class="io.autotest.factory.WebDriverFactory" />
+    <bean id="webDriverFactory" class="io.autotest.factory.WebDriverFactory"
+    factory-method="createDriver" factory-bean="factoryBean" scope="test" />
+    <bean id="pageObjectProcessor" class="io.autotest.annotation.PageObjectPostBeanProcessor" />
+</beans>
